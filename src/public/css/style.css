@@ -1,0 +1,51 @@
+* { box-sizing: border-box; }
+body {
+  font-family: system-ui, -apple-system, Arial, sans-serif;
+  margin: 0;
+  background: #f7f7fa;
+  color: #1a1a1a;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1f2937;
+  padding: 14px 24px;
+}
+.navbar .brand { color: #fff; font-weight: 700; text-decoration: none; font-size: 18px; }
+.nav-links a { color: #d1d5db; text-decoration: none; margin-left: 16px; }
+.nav-links a:hover { color: #fff; }
+.nav-user { color: #9ca3af; margin-left: 16px; }
+
+.container { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+
+.flash { padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; font-size: 14px; }
+.flash-success { background: #d1fae5; color: #065f46; }
+.flash-error { background: #fee2e2; color: #991b1b; }
+
+.form-card { display: flex; flex-direction: column; gap: 6px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.form-card label { font-size: 13px; font-weight: 600; margin-top: 8px; }
+.form-card input, .form-card textarea, .form-card select {
+  padding: 8px 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;
+}
+.form-card button {
+  margin-top: 16px; padding: 10px; background: #2563eb; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;
+}
+.form-card button:hover { background: #1d4ed8; }
+
+.post-list { display: flex; flex-direction: column; gap: 12px; }
+.post-card { background: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.post-card h2 { margin: 0 0 4px 0; font-size: 18px; }
+.post-card a { color: #1a1a1a; text-decoration: none; }
+.meta { color: #6b7280; font-size: 13px; margin: 4px 0; }
+
+.badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+.badge-public { background: #dbeafe; color: #1e40af; }
+.badge-private { background: #fef3c7; color: #92400e; }
+
+.post-detail { background: #fff; padding: 24px; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.post-content { margin-top: 16px; white-space: pre-wrap; line-height: 1.6; }
+.actions { margin-top: 20px; display: flex; gap: 10px; }
+.btn { padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: 600; border: none; cursor: pointer; }
+.btn { background: #e5e7eb; color: #1a1a1a; }
+.btn-danger { background: #fee2e2; color: #991b1b; }

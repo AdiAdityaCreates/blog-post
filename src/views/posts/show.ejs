@@ -1,0 +1,19 @@
+<%- include("../partials/header") %>
+
+<article class="post-detail">
+  <h1><%= post.title %></h1>
+  <span class="badge badge-<%= post.visibility %>"><%= post.visibility %></span>
+  <p class="meta">by <%= post.owner && post.owner.username ? post.owner.username : 'Unknown' %> · <%= new Date(post.createdAt).toLocaleDateString() %></p>
+  <div class="post-content"><%= post.content %></div>
+
+  <% if (isOwner) { %>
+    <div class="actions">
+      <a href="/posts/<%= post._id %>/edit" class="btn">Edit</a>
+      <form action="/posts/<%= post._id %>?_method=DELETE" method="POST" style="display:inline">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this post?')">Delete</button>
+      </form>
+    </div>
+  <% } %>
+</article>
+
+<%- include("../partials/footer") %>

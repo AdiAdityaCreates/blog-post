@@ -1,0 +1,23 @@
+<%- include("../partials/header") %>
+
+<h1><%= title %></h1>
+
+<% if (posts.length === 0) { %>
+  <p>No posts yet.</p>
+<% } %>
+
+<div class="post-list">
+  <% posts.forEach(post => { %>
+    <div class="post-card">
+      <h2><a href="/posts/<%= post._id %>"><%= post.title %></a></h2>
+      <span class="badge badge-<%= post.visibility %>"><%= post.visibility %></span>
+      <% if (post.owner && post.owner.username) { %>
+        <p class="meta">by <%= post.owner.username %> · <%= new Date(post.createdAt).toLocaleDateString() %></p>
+      <% } else { %>
+        <p class="meta"><%= new Date(post.createdAt).toLocaleDateString() %></p>
+      <% } %>
+    </div>
+  <% }) %>
+</div>
+
+<%- include("../partials/footer") %>

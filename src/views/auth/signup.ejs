@@ -1,0 +1,21 @@
+<%- include("../partials/header") %>
+
+<h1>Create your account</h1>
+<form action="/auth/signup" method="POST" class="form-card">
+  <label for="username">Username</label>
+  <input type="text" id="username" name="username" required minlength="3" />
+
+  <label for="email">Email</label>
+  <input type="email" id="email" name="email" required />
+
+  <label for="password">Password</label>
+  <input type="password" id="password" name="password" required minlength="6" />
+
+  <label for="confirmPassword">Confirm Password</label>
+  <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6" />
+
+  <button type="submit">Sign Up</button>
+</form>
+<p>Already have an account? <a href="/auth/login">Log in</a></p>
+
+<%- include("../partials/footer") %>
