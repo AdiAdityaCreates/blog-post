@@ -25,6 +25,13 @@ app.use(methodOverride("_method"));
 // Static files (css, client js, images)
 app.use(express.static(path.join(__dirname, "src", "public")));
 
+// Vercel turns 302 into 307 (which re-sends the POST). Default to 303 so the browser switches to GET.
+app.use((req, res, next) => {
+  const redirect = res.redirect.bind(res);
+  res.redirect = (a, b) => (typeof a === "number" ? redirect(a, b) : redirect(303, a));
+  next();
+});
+
 // Cookie-based flash messages (serverless-safe: no in-memory session needed).
 // Same API as connect-flash: req.flash(type, msg) to add, req.flash() to read & clear.
 app.use((req, res, next) => {
