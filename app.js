@@ -1,19 +1,14 @@
-const dns = require("dns");
-dns.setServers(["8.8.8.8"]);
 require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const methodOverride = require("method-override");
-const session = require("express-session");
-const flash = require("connect-flash");
 
 const authRoutes = require("./src/routes/authRoutes");
 const postRoutes = require("./src/routes/postRoutes");
 const { attachUserIfExists } = require("./src/middleware/auth");
 
 const app = express();
-const sessionSecret = process.env.SESSION_SECRET || process.env.JWT_SECRET || "default_jwt_secret_dev";
 
 // View engine
 app.set("view engine", "ejs");
@@ -30,16 +25,35 @@ app.use(methodOverride("_method"));
 // Static files (css, client js, images)
 app.use(express.static(path.join(__dirname, "src", "public")));
 
-// Flash messages need a session to temporarily store the message
-// (this session is ONLY for flash messages, NOT for auth - auth is 100% JWT-based)
-app.use(
-  session({
-    secret: sessionSecret,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-app.use(flash());
+// Cookie-based flash messages (serverless-safe: no in-memory session needed).
+// Same API as connect-flash: req.flash(type, msg) to add, req.flash() to read & clear.
+app.use((req, res, next) => {
+  let incoming = {};
+  try {
+    if (req.cookies.flash) incoming = JSON.parse(req.cookies.flash);
+  } catch (e) {
+    incoming = {};
+  }
+  if (req.cookies.flash) res.clearCookie("flash");
+
+  let outgoing = null;
+  req.flash = (type, msg) => {
+    if (type === undefined) {
+      const out = incoming;
+      incoming = {};
+      return out;
+    }
+    outgoing = outgoing || {};
+    (outgoing[type] = outgoing[type] || []).push(msg);
+    res.cookie("flash", JSON.stringify(outgoing), {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: (process.env.NODE_ENV || "").trim() === "production",
+      maxAge: 60 * 1000,
+    });
+  };
+  next();
+});
 
 // Make flash messages and user available in every view automatically
 app.use((req, res, next) => {
