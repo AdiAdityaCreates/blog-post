@@ -13,6 +13,7 @@ const postRoutes = require("./src/routes/postRoutes");
 const { attachUserIfExists } = require("./src/middleware/auth");
 
 const app = express();
+const sessionSecret = process.env.SESSION_SECRET || process.env.JWT_SECRET || "default_jwt_secret_dev";
 
 // View engine
 app.set("view engine", "ejs");
@@ -33,7 +34,7 @@ app.use(express.static(path.join(__dirname, "src", "public")));
 // (this session is ONLY for flash messages, NOT for auth - auth is 100% JWT-based)
 app.use(
   session({
-    secret: process.env.JWT_SECRET || "default_jwt_secret_dev",
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
   })

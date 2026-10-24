@@ -48,6 +48,12 @@ notes-blog-platform/
 4. `npm run dev` (or `npm start`)
 5. Visit `http://localhost:5000`
 
+## Deploying to Vercel
+Vercel runs the app through `api/index.js` as a serverless function. Add
+`MONGO_URI`, `JWT_SECRET`, and `SESSION_SECRET` under the project's Environment
+Variables in Vercel (for each environment you deploy), then redeploy. Vercel
+does not use the local `.env` file, and it should not be committed.
+
 ## How Auth Works (for interview explanation)
 1. **Signup**: password is hashed via bcrypt in a Mongoose `pre("save")` hook
    on the User model — controllers never touch raw hashing logic directly.

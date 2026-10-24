@@ -7,13 +7,14 @@ const jwt = require("jsonwebtoken");
 const generateTokenAndSetCookie = (res, userId) => {
   const cookieName = process.env.JWT_COOKIE_NAME || "token";
   const secret = process.env.JWT_SECRET || "default_jwt_secret_dev";
+  const isProduction = (process.env.NODE_ENV || "").trim() === "production";
   const token = jwt.sign({ id: userId }, secret, {
     expiresIn: process.env.JWT_EXPIRES_IN || "7d",
   });
 
   res.cookie(cookieName, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // only over HTTPS in prod
+    secure: isProduction, // only over HTTPS in prod
     sameSite: "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in ms
   });

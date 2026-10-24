@@ -17,6 +17,7 @@ exports.postSignup = async (req, res) => {
     }
 
     const trimmedUsername = username.trim();
+    const normalizedUsername = trimmedUsername.toLowerCase();
     const trimmedEmail = email.trim().toLowerCase();
 
     if (trimmedUsername.length < 3 || trimmedUsername.length > 30) {
@@ -35,7 +36,7 @@ exports.postSignup = async (req, res) => {
     }
 
     const existingUser = await User.findOne({
-      $or: [{ email: trimmedEmail }, { username: trimmedUsername }],
+      $or: [{ email: trimmedEmail }, { username: normalizedUsername }],
     });
     if (existingUser) {
       req.flash("error", "Username or email already in use");
@@ -44,7 +45,7 @@ exports.postSignup = async (req, res) => {
 
     // Password hashing happens automatically in the User model's pre-save hook
     const user = await User.create({
-      username: trimmedUsername,
+      username: normalizedUsername,
       email: trimmedEmail,
       password,
     });
